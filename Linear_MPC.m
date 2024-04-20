@@ -67,7 +67,8 @@ Aineq = [-eye(u_length); eye(u_length)];
 bineq = [-u_min_vec; u_max_vec];
 
 %% Online regression
-online_regression_on = false;
+online_regression_on = true;
+integral_feedback_on = false;
 %% Start Simulation
 error = 0;
 u_next = [0.1; 0];
@@ -85,7 +86,7 @@ for iter = 1:(t_end/T)
         r_vec = r_vec + 2*(x(:,iter)'*(Ad^(i+1))'*Q*H_AB(i*dim_state+1:i*dim_state+dim_state,:)) + P*H_AB(i*dim_state+1:i*dim_state+dim_state,:);
     end
     u_next = NextInputLMPC(Q_bar, r_vec, Aineq, bineq, u0, dim_input);
-    u_next = u_next+0.4*[error;0];
+    u_next = u_next+integral_feedback_on*0.4*[error;0]; % 0.4
     u_next = min([5;10], max([0.1;-10], u_next));
     tEnd = toc(tStart);
     % update computation time
@@ -118,8 +119,8 @@ for iter = 1:(t_end/T)
     % update linear model
     if rem(iter, 75) == 0 && online_regression_on
         [updated_A, updated_B] = online_regression(Ad, Bd, x(:, 1:iter-1), u(:, 1:iter-1));
-        Ad = updated_A*0.2 + Ad*0.8;
-        Bd = updated_B*0.2 + Bd*0.8;
+        Ad = updated_A*0.1 + Ad*0.9;
+        Bd = updated_B*0.1 + Bd*0.9;
         H_AB = zeros(x_length, u_length);
         for i = 1:N
             for j = 1:i
@@ -167,7 +168,13 @@ xlabel('Time [s]');
 ylabel('Theta [deg]');
 
 %% save to file
-save("Linear_MPC_data.mat", 'x', 'u', 'computation_time');
+if online_regression_on && integral_feedback_on
+    save("Linear_MPC_online_regression_integral_feedback_data.mat", 'x', 'u', 'computation_time');
+elseif online_regression_on && ~integral_feedback_on
+    save("Linear_MPC_online_regression_data.mat", 'x', 'u', 'computation_time');
+else
+    save("Linear_MPC_data.mat", 'x', 'u', 'computation_time');
+end
 %% Compute quadprog
 function u_next = NextInputLMPC(Q_bar, r_vec, Aineq, bineq, u0, dim_input)
 options = optimoptions('quadprog', 'Algorithm', 'active-set','ObjectiveLimit',-1e20);
