@@ -1,0 +1,25 @@
+function Fver = vertical(r, t, f, b, c, U, phi, beta_max, rho, Re)
+    AR = 2*b/c;
+    %k = pi*f*c/U;
+    beta = beta_max*cos(2*pi*f*t);
+    beta_dot = -2*pi*f*beta_max*sin(2*pi*f*t);
+    beta_dot_dot = -4*pi^2*f^2*beta;
+    Vx = U.*cosd(phi);
+    Vy = U.*sind(phi)-r.*beta_dot.*cosd(beta)*pi/180;
+    Vrel = sqrt(Vx.^2+Vy.^2);
+    k = pi*f*c./Vrel;
+    AOA = atand(Vy./Vx);
+    C1 = AR*0.5/(2.32+AR); 
+    C2 = 0.181+0.772/AR;
+    F = 1-C1*k.^2./(k.^2+C2^2);
+    G = -C1*C2*k./(k.^2+C2^2);
+    Ck = sqrt(F.^2+G.^2);
+    Cl = 2*pi*Ck.*sind(AOA);
+    L = 1/2*rho*Vrel.^2.*Cl*c;
+    N = -rho*pi*c^2/4*r.*beta_dot_dot*pi/180;
+    Cdp = 4.4*0.445/(log10(Re))^2.58;
+    Cdi = Cl.^2/0.7/pi/AR;
+    Cd = Cdp+Cdi;
+    D = 1/2*rho*Vrel.^2.*Cd*c;
+    Fver = L.*cosd(AOA)+N.*cosd(beta)+D.*sind(AOA);
+end
