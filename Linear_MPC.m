@@ -5,12 +5,12 @@ N = 5;                 % Horizon length
 T = 0.1;                % MPC step size
 t_end = 30;             % Simulation length
 t = (0:T:t_end)';
-dim_state = 13;         % Dimension of state
+dim_state = 15;         % Dimension of state
 dim_input = 2;          % Dimension of input
 x_length = dim_state*N; % Length of stacked state vector
 u_length = dim_input*N; % Length decision variable vector
 
-load("linear_model.mat");
+load("linear_model_15.mat");
 
 Ad = A;                                     % Discretized A
 Bd = B;                                     % Discretized B
@@ -67,7 +67,7 @@ Aineq = [-eye(u_length); eye(u_length)];
 bineq = [-u_min_vec; u_max_vec];
 
 %% Online regression
-online_regression_on = true;
+online_regression_on = false;
 %% Start Simulation
 error = 0;
 u_next = [0.1; 0];
@@ -167,7 +167,7 @@ xlabel('Time [s]');
 ylabel('Theta [deg]');
 
 %% save to file
-save("Linear_MPC_data.mat", 'x', 'u', 'computation_time');
+save("Linear_MPC_data_15_states.mat", 'x', 'u', 'computation_time');
 %% Compute quadprog
 function u_next = NextInputLMPC(Q_bar, r_vec, Aineq, bineq, u0, dim_input)
 options = optimoptions('quadprog', 'Algorithm', 'active-set','ObjectiveLimit',-1e20);
@@ -192,6 +192,8 @@ function [x0, x0_og] = get_initial_states(x,y, vx, vy, delta, delta_dot)
     x0(11) = x0(4)*x0(7);
     x0(12) = x0(4)*x0(8);
     x0(13) = x0(3)*x0(4);
+    x0(14) = x0(3)*x0(3);
+    x0(15) = x0(4)*x0(4);
     x0_og = zeros(6,1);
     x0_og(1) = x;
     x0_og(2) = y;
