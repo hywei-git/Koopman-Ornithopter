@@ -10,7 +10,7 @@ dim_input = 2;          % Dimension of input
 x_length = dim_state*N; % Length of stacked state vector
 u_length = dim_input*N; % Length decision variable vector
 
-load("linear_model_15.mat");
+load("linear_model.mat");
 
 Ad = A;                                     % Discretized A
 Bd = B;                                     % Discretized B
@@ -167,7 +167,7 @@ xlabel('Time [s]');
 ylabel('Theta [deg]');
 
 %% save to file
-save("Linear_MPC_data_15_states.mat", 'x', 'u', 'computation_time');
+save("Linear_MPC_data.mat", 'x', 'u', 'computation_time');
 %% Compute quadprog
 function u_next = NextInputLMPC(Q_bar, r_vec, Aineq, bineq, u0, dim_input)
 options = optimoptions('quadprog', 'Algorithm', 'active-set','ObjectiveLimit',-1e20);

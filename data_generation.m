@@ -104,4 +104,4 @@ end
 A = [[1 0;0 1] [dt 0;0 dt] zeros(2, 11);zeros(13, 2) A];
 B = [zeros(2, 2);B];
 %% save linear system matrix A, B
-save("linear_model_15.mat", "A", "B");
+save("linear_model.mat", "A", "B");
