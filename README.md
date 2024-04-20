@@ -8,8 +8,9 @@ This repo contains all source files to replicate the results presented
 To Simulate
 1. PID, run ****
 2. Linear MPC, run ****
-3. Nonlinear MPC, run ****
-4. MPC in original space, run ****
+   - In line ****, toggle online regression and integral controller on/off as desired
+4. Nonlinear MPC, run ****
+5. MPC in original space, run ****
    - This may take around 2 hr to run
 
 Data training procedure
@@ -17,3 +18,5 @@ Data training procedure
    - This may take around 1 hr with parallel computing ****
 3. To train linear Koopman operator, run ****
 4. To train nonlinear Koopman operator, run ****
+
+To plot all results, run ****
