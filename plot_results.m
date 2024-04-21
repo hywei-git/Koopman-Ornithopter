@@ -104,3 +104,11 @@ hold off
 legend('LMPC', 'LMPC with online regression','LMPC with online regression and integral feedback')
 xlabel('time [s]')
 ylabel('Tail Wing Angle [deg]')
+
+computation_time = ["PID","LMPC","NLMPC","LMPC-OR","LMPC-OR-IC"]';
+computation_time(1,2) = PID.computation_time*1000/300;
+computation_time(2,2) = LMPC.computation_time*1000/300;
+computation_time(3,2) = NLMPC.computation_time*1000/300;
+computation_time(4,2) = LMPC_OR.computation_time*1000/300;
+computation_time(5,2) = LMPC_OR_IC.computation_time*1000/300;
+computation_time

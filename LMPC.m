@@ -3,7 +3,7 @@ clear; close all; clc;
 % Toggle on/off online regression
 online_regression_on = true;
 % Toggle on/off integral feedback
-integral_feedback_on = false;
+integral_feedback_on = true;
 
 %% Set Up Controller Parameters
 computation_time = 0;   % Computational time counter
