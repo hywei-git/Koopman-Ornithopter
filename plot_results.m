@@ -7,11 +7,13 @@ LMPC_OR_IC = load('Linear_MPC_online_regression_integral_feedback_data.mat');
 NLMPC = load('NL_Poly_MPC_data.mat');
 PID = load('PID_data.mat');
 %% plot
+% references and time
 t = 0:0.1:30;
 y_ref = [20*ones(1,100) 25*ones(1,100) 20*ones(1,150)];
 Vx_ref = 25;
 Vy_ref = 0;
 
+% plot states of three different controllers
 figure
 subplot(2, 1, 1)
 plot(t, PID.x(3, :),'LineWidth',1.5)
@@ -35,8 +37,8 @@ legend('PID', 'LMPC','NLMPC', 'reference')
 xlabel('time [s]')
 ylabel('Vertical Position [m]')
 
+% plot inputs of three different controllers
 figure
-
 subplot(2, 1, 1)
 plot(t(1:end-1), PID.u(1, :),'LineWidth',1.5)
 hold on
@@ -57,6 +59,7 @@ legend('PID', 'LMPC','NLMPC')
 xlabel('time [s]')
 ylabel('Tail Wing Angle [deg]')
 
+% plot states of LMPC, LMPC+online regression, LMPC+online regression+integral feedback
 figure
 subplot(2, 1, 1)
 plot(t, LMPC.x(3, :),'LineWidth',1.5)
@@ -80,7 +83,7 @@ legend('LMPC', 'LMPC with online regression','LMPC with online regression and in
 xlabel('time [s]')
 ylabel('Vertical Position [m]')
 
-
+% plot inputs of LMPC, LMPC+online regression, LMPC+online regression+integral feedback
 figure
 subplot(2, 1, 1)
 plot(t, LMPC.u(1, :),'LineWidth',1.5)

@@ -1,9 +1,9 @@
 clear; clc; close all;
 %%
-computation_time = 0;
+computation_time = 0;                       % Initialize computation time
 simtime = 30;                               % Simulation duration
 step = 0.1;                                 % Step size of mpc
-x0 = [0; 15; 15; 0; 10; 0];                  % Initial [x, y, Vx, Vy, delta, delta_dot]'
+x0 = [0; 15; 15; 0; 10; 0];                 % Initial [x, y, Vx, Vy, delta, delta_dot]'
 x = zeros(6,simtime/step + 1);              % State matrix
 x(:,1) = x0;                                % Add to state matrix
 u = zeros(2,simtime/step);                  % Input matrix
@@ -11,29 +11,24 @@ t = 0:step:simtime;                         % Simulation time vector
 umax = [5; 10];                             % Maximum input
 umin = [0.1; -10];                          % Minimum input
 
-% Parameters for [Vx, Vy]
-% kp = [4 0; 
-%       0 6];                                 % Proportional gain for Vx Vy tracking
 % Parameters for [Vx, y]
 kp = [4 0; 
       0 4];                                 % Proportional gain for Vx y tracking
 kd = [0 0;
-      0 12];
+      0 12];                                % Derivative gain for Vx y tracking
 ki = [0.4 0;
-      0 0.2];
+      0 0.2];                               % Integral gain for Vx y tracking
 Vx_ref = 25;                                % Reference Vx
 Vy_ref = 0;                                 % Reference Vy
-% y_ref = 20;                                 % Reference y
-y_ref = [20*ones(1,100) 25*ones(1,100) 20*ones(1,120)];
+y_ref = [20*ones(1,100) 25*ones(1,100) 20*ones(1,120)]; % Reference y
 %y_ref = 15 - 5*cosd(2*(0:620));
-%%
+%% Simulation
+% initialize error
 err_integral = [0; 0];
 err_integral_max = [50; 50];
 err_last = [0; 0];
 for iter = 1:simtime/step
     tStart = tic;
-    % Error [Vx, Vy]
-%     err = [Vx_ref - x(3,iter); Vy_ref - x(4,iter)];
     % Error [Vx, y]
     err = [Vx_ref - x(3,iter); y_ref(iter) - x(2,iter)];
     % Error integration

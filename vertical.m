@@ -1,6 +1,5 @@
 function Fver = vertical(r, t, f, b, c, U, phi, beta_max, rho, Re)
     AR = 2*b/c;
-    %k = pi*f*c/U;
     beta = beta_max*cos(2*pi*f*t);
     beta_dot = -2*pi*f*beta_max*sin(2*pi*f*t);
     beta_dot_dot = -4*pi^2*f^2*beta;
