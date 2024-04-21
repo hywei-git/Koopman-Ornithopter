@@ -1,4 +1,4 @@
-function F_tail = Forces_tail(U, gamma, delta, theta, rho, St, ARt, bt) % formula from reference paper[4]
+function F_tail = forces_tail(U, gamma, delta, theta, rho, St, ARt, bt) % formula from reference paper[4]
     C2 = 0.181+0.772/ARt;
     F = 1/(C2^2);
     AOA = delta - gamma - theta;

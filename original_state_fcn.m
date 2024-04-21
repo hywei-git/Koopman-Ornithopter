@@ -28,7 +28,7 @@ Horizontal_wing = Horizontal_wing*2*f; % average over a cycle
 F_wing = [Vertical_wing Horizontal_wing];
 
 % vertical and horizontal forces from tail (body frame)
-F_tail = Forces_tail(U, gamma, states(3), theta, rho, St, ARt, bt);
+F_tail = forces_tail(U, gamma, states(3), theta, rho, St, ARt, bt);
 delta_dot = states(4);% pitch angular velocity
 delta_dotdot = -F_tail(1, 1)*l/I*180/pi; % pitch angular acceleration
 
