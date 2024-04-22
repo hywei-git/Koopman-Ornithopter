@@ -89,7 +89,7 @@ for iter = 1:(t_end/T)
     r_vec = zeros(1, u_length);
     for i = 0:N-1
         % First, update P(2) since y_ref is function of time
-        P(2) = -2*w_y*y_ref(iter);
+        P(2) = -2*w_y*y_ref(iter+i);
         r_vec = r_vec + 2*(x(:,iter)'*(Ad^(i+1))'*Q*H_AB(i*dim_state+1:i*dim_state+dim_state,:)) + P*H_AB(i*dim_state+1:i*dim_state+dim_state,:);
     end
 
